@@ -10,6 +10,46 @@ app.use(cors());
 
 
 // ==========================
+// Strona główna API
+// ==========================
+
+app.get("/", (req,res)=>{
+
+    res.json({
+
+        name:"kazzasyvAPI",
+
+        status:"online",
+
+        message:"API działa poprawnie"
+
+    });
+
+});
+
+
+// ==========================
+// Szybki status API
+// ==========================
+
+app.get("/status",(req,res)=>{
+
+    const start = Date.now();
+
+    res.json({
+
+        name:"kazzasyvAPI",
+
+        status:"online",
+
+        ping:(Date.now()-start)+"ms"
+
+    });
+
+});
+
+
+// ==========================
 // Sprawdzanie strony
 // ==========================
 
@@ -72,7 +112,7 @@ app.get("/api/status/api", async (req,res)=>{
     try{
 
         await axios.get(
-            "http://localhost:3000/api/ping"
+            "http://localhost:"+PORT+"/api/ping"
         );
 
 
@@ -176,10 +216,17 @@ app.get("/api/status/hosting", async (req,res)=>{
 
 
 
-app.listen(3000,()=>{
+// ==========================
+// Start serwera
+// ==========================
+
+const PORT = process.env.PORT || 3000;
+
+
+app.listen(PORT,()=>{
 
     console.log(
-        "🚀 kazzasyvAPI działa na porcie 3000"
+        "🚀 kazzasyvAPI działa na porcie " + PORT
     );
 
 });

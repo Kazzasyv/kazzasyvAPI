@@ -214,7 +214,137 @@ app.get("/api/status/hosting", async (req,res)=>{
 
 });
 
+// ==========================
+// kazzasyvAI Generator
+// ==========================
 
+app.get("/api/ai/generate",(req,res)=>{
+
+    const prompt = req.query.prompt;
+
+
+    if(!prompt){
+
+        return res.json({
+
+            error:"Brak opisu strony"
+
+        });
+
+    }
+
+
+
+    const html = `
+<!DOCTYPE html>
+
+<html lang="pl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>kazzasyvAI Generator</title>
+
+
+<style>
+
+body{
+
+background:#050b18;
+
+color:white;
+
+font-family:Poppins,Arial,sans-serif;
+
+text-align:center;
+
+padding:50px;
+
+}
+
+
+.card{
+
+background:#0d1628;
+
+padding:30px;
+
+border-radius:22px;
+
+border:1px solid #2196ff;
+
+}
+
+
+footer{
+
+margin-top:50px;
+
+color:#2196ff;
+
+}
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+<div class="card">
+
+
+<h1>${prompt}</h1>
+
+
+<p>
+Ta strona została wygenerowana przez kazzasyvAI 🤖
+</p>
+
+
+</div>
+
+
+
+<footer>
+
+© 2026 Created with kazzasyvAI
+
+<br>
+
+Powered by kazzasyvAPI
+
+</footer>
+
+
+
+</body>
+
+</html>
+`;
+
+
+
+res.json({
+
+    status:"success",
+
+    creator:"kazzasyvAI",
+
+    description:prompt,
+
+    html:html
+
+});
+
+
+});
 
 // ==========================
 // Start serwera

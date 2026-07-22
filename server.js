@@ -29,7 +29,7 @@ app.get("/", (req,res)=>{
 
 
 // ==========================
-// Szybki status API
+// Status API
 // ==========================
 
 app.get("/status",(req,res)=>{
@@ -47,6 +47,7 @@ app.get("/status",(req,res)=>{
     });
 
 });
+
 
 
 // ==========================
@@ -101,13 +102,28 @@ app.get("/api/status/website", async (req,res)=>{
 
 
 // ==========================
-// Sprawdzanie API samego siebie
+// Ping API
+// ==========================
+
+app.get("/api/ping",(req,res)=>{
+
+    res.json({
+
+        alive:true
+
+    });
+
+});
+
+
+
+// ==========================
+// Status API samego siebie
 // ==========================
 
 app.get("/api/status/api", async (req,res)=>{
 
     const start = Date.now();
-
 
     try{
 
@@ -129,7 +145,6 @@ app.get("/api/status/api", async (req,res)=>{
         });
 
 
-
     }catch(error){
 
         res.json({
@@ -151,22 +166,6 @@ app.get("/api/status/api", async (req,res)=>{
 
 
 // ==========================
-// Ping dla samego API
-// ==========================
-
-app.get("/api/ping",(req,res)=>{
-
-    res.json({
-
-        alive:true
-
-    });
-
-});
-
-
-
-// ==========================
 // Hosting
 // ==========================
 
@@ -177,9 +176,7 @@ app.get("/api/status/hosting", async (req,res)=>{
 
     try{
 
-        await axios.get(
-            process.env.WEBSITE
-        );
+        await axios.get(process.env.WEBSITE);
 
 
         res.json({
@@ -193,7 +190,6 @@ app.get("/api/status/hosting", async (req,res)=>{
             code:200
 
         });
-
 
 
     }catch(error){
@@ -214,13 +210,17 @@ app.get("/api/status/hosting", async (req,res)=>{
 
 });
 
+
+
+
 // ==========================
-// kazzasyvAI Generator
+// 🤖 kazzasyvAI Generator
 // ==========================
 
 app.get("/api/ai/generate",(req,res)=>{
 
-    const prompt = req.query.prompt;
+
+    let prompt = req.query.prompt;
 
 
     if(!prompt){
@@ -234,8 +234,30 @@ app.get("/api/ai/generate",(req,res)=>{
     }
 
 
+    prompt = prompt.replace(/[<>]/g,"");
+
+
+
+    let color="#2196ff";
+
+
+    if(prompt.toLowerCase().includes("czerw")){
+
+        color="#ff3333";
+
+    }
+
+
+    if(prompt.toLowerCase().includes("zielon")){
+
+        color="#00ff88";
+
+    }
+
+
 
     const html = `
+
 <!DOCTYPE html>
 
 <html lang="pl">
@@ -246,7 +268,8 @@ app.get("/api/ai/generate",(req,res)=>{
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>kazzasyvAI Generator</title>
+
+<title>kazzasyvAI Website</title>
 
 
 <style>
@@ -257,7 +280,7 @@ background:#050b18;
 
 color:white;
 
-font-family:Poppins,Arial,sans-serif;
+font-family:Arial,sans-serif;
 
 text-align:center;
 
@@ -266,15 +289,37 @@ padding:50px;
 }
 
 
-.card{
+.container{
 
 background:#0d1628;
 
-padding:30px;
+border:2px solid ${color};
 
-border-radius:22px;
+border-radius:25px;
 
-border:1px solid #2196ff;
+padding:40px;
+
+}
+
+
+h1{
+
+color:${color};
+
+}
+
+
+button{
+
+background:${color};
+
+color:white;
+
+border:0;
+
+padding:15px 30px;
+
+border-radius:30px;
 
 }
 
@@ -283,7 +328,7 @@ footer{
 
 margin-top:50px;
 
-color:#2196ff;
+color:#999;
 
 }
 
@@ -297,15 +342,24 @@ color:#2196ff;
 <body>
 
 
-<div class="card">
+<div class="container">
 
 
 <h1>${prompt}</h1>
 
 
 <p>
-Ta strona została wygenerowana przez kazzasyvAI 🤖
+
+Strona wygenerowana automatycznie przez kazzasyvAI 🤖
+
 </p>
+
+
+<button>
+
+kazzasyvAI
+
+</button>
 
 
 </div>
@@ -314,11 +368,13 @@ Ta strona została wygenerowana przez kazzasyvAI 🤖
 
 <footer>
 
+
 © 2026 Created with kazzasyvAI
 
 <br>
 
 Powered by kazzasyvAPI
+
 
 </footer>
 
@@ -327,24 +383,28 @@ Powered by kazzasyvAPI
 </body>
 
 </html>
+
 `;
 
 
 
 res.json({
 
-    status:"success",
+status:"success",
 
-    creator:"kazzasyvAI",
+creator:"kazzasyvAI",
 
-    description:prompt,
+description:prompt,
 
-    html:html
+html:html
+
+});
+
 
 });
 
 
-});
+
 
 // ==========================
 // Start serwera
@@ -355,8 +415,8 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT,()=>{
 
-    console.log(
-        "🚀 kazzasyvAPI działa na porcie " + PORT
-    );
+console.log(
+"🚀 kazzasyvAPI działa na porcie " + PORT
+);
 
 });

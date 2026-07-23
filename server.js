@@ -419,6 +419,198 @@ res.json({
 });
 
 // ==========================
+// 🤖 kazzasyvAI ZIP Website Generator
+// ==========================
+
+app.get("/api/ai/create",(req,res)=>{
+
+
+    const prompt = req.query.prompt;
+
+
+    if(!prompt){
+
+        return res.json({
+            error:"Brak opisu strony"
+        });
+
+    }
+
+
+
+    const folder = path.join(__dirname,"generated");
+
+
+    if(!fs.existsSync(folder)){
+
+        fs.mkdirSync(folder);
+
+    }
+
+
+
+    const html = `
+<!DOCTYPE html>
+
+<html lang="pl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>kazzasyvAI Website</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+<h1>${prompt}</h1>
+
+<p>
+Strona wygenerowana przez kazzasyvAI 🤖
+</p>
+
+
+</div>
+
+
+<footer>
+
+© 2026 Created with kazzasyvAI
+<br>
+Powered by kazzasyvAPI
+
+</footer>
+
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>
+`;
+
+
+
+
+const css = `
+
+body{
+
+background:#050b18;
+
+color:white;
+
+font-family:Arial;
+
+text-align:center;
+
+padding:50px;
+
+}
+
+
+
+.container{
+
+background:#0d1628;
+
+padding:40px;
+
+border-radius:25px;
+
+}
+
+
+
+footer{
+
+margin-top:50px;
+
+color:#2196ff;
+
+}
+
+`;
+
+
+
+
+const js = `
+
+console.log("kazzasyvAI website loaded 🚀");
+
+`;
+
+
+
+
+fs.writeFileSync(
+path.join(folder,"index.html"),
+html
+);
+
+
+fs.writeFileSync(
+path.join(folder,"style.css"),
+css
+);
+
+
+fs.writeFileSync(
+path.join(folder,"script.js"),
+js
+);
+
+
+
+const zipPath = path.join(
+__dirname,
+"kazzasyvAI-project.zip"
+);
+
+
+
+const output = fs.createWriteStream(zipPath);
+
+const archive = archiver("zip");
+
+
+output.on("close",()=>{
+
+
+res.download(
+zipPath,
+"kazzasyvAI-project.zip"
+);
+
+
+});
+
+
+
+archive.pipe(output);
+
+
+archive.directory(folder,false);
+
+
+archive.finalize();
+
+
+
+});
+
+// ==========================
 // Start serwera
 // ==========================
 

@@ -212,7 +212,6 @@ app.get("/api/status/hosting", async (req,res)=>{
 
 
 
-
 // ==========================
 // 🤖 kazzasyvAI Generator
 // ==========================
@@ -238,19 +237,26 @@ app.get("/api/ai/generate",(req,res)=>{
 
 
 
-    let color="#2196ff";
+    let theme = "#2196ff";
 
 
     if(prompt.toLowerCase().includes("czerw")){
 
-        color="#ff3333";
+        theme="#ff3333";
 
     }
 
 
     if(prompt.toLowerCase().includes("zielon")){
 
-        color="#00ff88";
+        theme="#00ff88";
+
+    }
+
+
+    if(prompt.toLowerCase().includes("fiolet")){
+
+        theme="#a855f7";
 
     }
 
@@ -269,7 +275,7 @@ app.get("/api/ai/generate",(req,res)=>{
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<title>kazzasyvAI Website</title>
+<title>kazzasyvAI</title>
 
 
 <style>
@@ -289,39 +295,49 @@ padding:50px;
 }
 
 
-.container{
+
+.box{
 
 background:#0d1628;
 
-border:2px solid ${color};
+border:2px solid ${theme};
 
 border-radius:25px;
 
 padding:40px;
 
+max-width:700px;
+
+margin:auto;
+
 }
+
 
 
 h1{
 
-color:${color};
+color:${theme};
 
 }
 
 
+
 button{
 
-background:${color};
+background:${theme};
 
 color:white;
 
-border:0;
+border:none;
 
 padding:15px 30px;
 
 border-radius:30px;
 
+font-size:16px;
+
 }
+
 
 
 footer{
@@ -333,6 +349,7 @@ color:#999;
 }
 
 
+
 </style>
 
 
@@ -342,7 +359,7 @@ color:#999;
 <body>
 
 
-<div class="container">
+<div class="box">
 
 
 <h1>${prompt}</h1>
@@ -350,14 +367,14 @@ color:#999;
 
 <p>
 
-Strona wygenerowana automatycznie przez kazzasyvAI 🤖
+Ta strona została wygenerowana przez kazzasyvAI 🤖
 
 </p>
 
 
 <button>
 
-kazzasyvAI
+Created by kazzasyvAI
 
 </button>
 
@@ -368,13 +385,11 @@ kazzasyvAI
 
 <footer>
 
-
 © 2026 Created with kazzasyvAI
 
 <br>
 
 Powered by kazzasyvAPI
-
 
 </footer>
 
@@ -390,21 +405,18 @@ Powered by kazzasyvAPI
 
 res.json({
 
-status:"success",
+    status:"success",
 
-creator:"kazzasyvAI",
+    creator:"kazzasyvAI",
 
-description:prompt,
+    description:prompt,
 
-html:html
-
-});
-
+    html:html
 
 });
 
 
-
+});
 
 // ==========================
 // Start serwera

@@ -8,11 +8,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-
-// ==========================
-// Strona główna API
-// ==========================
-
 app.get("/", (req,res)=>{
 
     res.json({
@@ -27,10 +22,6 @@ app.get("/", (req,res)=>{
 
 });
 
-
-// ==========================
-// Status API
-// ==========================
 
 app.get("/status",(req,res)=>{
 
@@ -48,11 +39,6 @@ app.get("/status",(req,res)=>{
 
 });
 
-
-
-// ==========================
-// Sprawdzanie strony
-// ==========================
 
 app.get("/api/status/website", async (req,res)=>{
 
@@ -100,11 +86,6 @@ app.get("/api/status/website", async (req,res)=>{
 });
 
 
-
-// ==========================
-// Ping API
-// ==========================
-
 app.get("/api/ping",(req,res)=>{
 
     res.json({
@@ -115,11 +96,6 @@ app.get("/api/ping",(req,res)=>{
 
 });
 
-
-
-// ==========================
-// Status API samego siebie
-// ==========================
 
 app.get("/api/status/api", async (req,res)=>{
 
@@ -165,10 +141,6 @@ app.get("/api/status/api", async (req,res)=>{
 
 
 
-// ==========================
-// Hosting
-// ==========================
-
 app.get("/api/status/hosting", async (req,res)=>{
 
     const start = Date.now();
@@ -210,11 +182,6 @@ app.get("/api/status/hosting", async (req,res)=>{
 
 });
 
-
-
-// ==========================
-// 🤖 kazzasyvAI Generator
-// ==========================
 
 app.get("/api/ai/generate",(req,res)=>{
 
@@ -418,9 +385,6 @@ res.json({
 
 });
 
-// ==========================
-// 🤖 kazzasyvAI ZIP Website Generator
-// ==========================
 
 app.get("/api/ai/create",(req,res)=>{
 
@@ -627,9 +591,6 @@ archive.finalize();
 
 });
 
-// ==========================
-// Start serwera
-// ==========================
 
 const PORT = process.env.PORT || 3000;
 
